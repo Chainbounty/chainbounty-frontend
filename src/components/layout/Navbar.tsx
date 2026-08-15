@@ -1,6 +1,7 @@
 import { Link, NavLink } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { WalletButton } from '@/components/wallet/WalletButton'
 import { Zap } from 'lucide-react'
 
 const navLinks = [
@@ -42,7 +43,7 @@ export function Navbar() {
           <Button variant="outline" size="sm" asChild>
             <Link to="/post-bounty">Post Bounty</Link>
           </Button>
-          <Button size="sm">Connect Wallet</Button>
+          <WalletButton />
         </div>
       </div>
     </header>
