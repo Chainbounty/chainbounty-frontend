@@ -1,28 +1,32 @@
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Layout } from '@/components/layout/Layout'
+import HomePage from '@/pages/HomePage'
+import BountyListPage from '@/pages/BountyListPage'
+import BountyDetailPage from '@/pages/BountyDetailPage'
+import PostBountyPage from '@/pages/PostBountyPage'
+import DashboardPage from '@/pages/DashboardPage'
+import LeaderboardPage from '@/pages/LeaderboardPage'
+import ContributorProfilePage from '@/pages/ContributorProfilePage'
+import DisputeCenterPage from '@/pages/DisputeCenterPage'
+import NotFoundPage from '@/pages/NotFoundPage'
 
 function App() {
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-8">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            ChainBounty
-            <Badge variant="default">Beta</Badge>
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-3">
-          <p className="text-muted-foreground text-sm">
-            Decentralized Bounty Board for Open Source
-          </p>
-          <div className="flex gap-2">
-            <Button>Connect Wallet</Button>
-            <Button variant="outline">Browse Bounties</Button>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/bounties" element={<BountyListPage />} />
+          <Route path="/bounties/:id" element={<BountyDetailPage />} />
+          <Route path="/post-bounty" element={<PostBountyPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/profile/:address" element={<ContributorProfilePage />} />
+          <Route path="/disputes" element={<DisputeCenterPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
