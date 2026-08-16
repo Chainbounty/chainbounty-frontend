@@ -15,6 +15,7 @@ import { BountyStatusBadge } from '@/components/bounty/BountyStatusBadge'
 import { BountyTimeline } from '@/components/bounty/BountyTimeline'
 import { MilestoneProgress } from '@/components/bounty/MilestoneProgress'
 import { BountyActionPanel } from '@/components/bounty/BountyActionPanel'
+import { ClaimBountyModal } from '@/components/bounty/ClaimBountyModal'
 import { MOCK_BOUNTIES, MOCK_TIMELINE, MOCK_MILESTONES } from '@/lib/mockData'
 import { formatReward, shortAddress, timeAgo } from '@/lib/bounty'
 
@@ -22,6 +23,7 @@ export default function BountyDetailPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
   const [copied, setCopied] = useState(false)
+  const [claimModalOpen, setClaimModalOpen] = useState(false)
 
   const bounty = MOCK_BOUNTIES.find(b => b.id === id)
   const timeline = MOCK_TIMELINE[id ?? ''] ?? []
@@ -195,11 +197,22 @@ export default function BountyDetailPage() {
             {/* Action panel */}
             <BountyActionPanel
               bounty={bounty}
-              onClaim={() => navigate(`/bounties/${id}/claim`)}
+              onClaim={() => setClaimModalOpen(true)}
               onSubmitWork={() => navigate(`/bounties/${id}/submit`)}
               onApprove={() => alert('Approve flow — coming in step 11')}
               onReject={() => alert('Reject flow — coming in step 11')}
               onDispute={() => navigate('/disputes')}
+            />
+
+            {/* Claim modal */}
+            <ClaimBountyModal
+              bounty={bounty}
+              open={claimModalOpen}
+              onOpenChange={setClaimModalOpen}
+              onSuccess={txHash => {
+                console.log('Claimed! tx:', txHash)
+                setClaimModalOpen(false)
+              }}
             />
 
             {/* Poster info */}
