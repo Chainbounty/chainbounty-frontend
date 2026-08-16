@@ -107,3 +107,91 @@ export const MOCK_BOUNTIES: Bounty[] = [
     milestonesCompleted: 1,
   },
 ]
+
+import type { TimelineEvent } from '@/types/timeline'
+
+export const MOCK_TIMELINE: Record<string, TimelineEvent[]> = {
+  '1': [
+    {
+      id: 'e1',
+      type: 'created',
+      actor: 'GABCDEFGHIJKLMNOPQRSTUVWXYZ12345678901234567890ABCD',
+      message: 'Bounty posted with 500 USDC reward and 3 milestones.',
+      txHash: 'abc123def456abc123def456abc123def456abc123def456abc123de',
+      createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+  ],
+  '2': [
+    {
+      id: 'e1',
+      type: 'created',
+      actor: 'GXYZ1234ABCD5678EFGH9012IJKL3456MNOP7890QRST1234UVWX',
+      message: 'Bounty posted with 1500 XLM reward and 4 milestones.',
+      txHash: 'bcd234efg567bcd234efg567bcd234efg567bcd234efg567bcd234ef',
+      createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: 'e2',
+      type: 'claimed',
+      actor: 'GCLAIMR1234ABCD5678EFGH9012IJKL3456MNOP7890QRST1234',
+      message: 'Contributor claimed the bounty and began working.',
+      txHash: 'cde345fgh678cde345fgh678cde345fgh678cde345fgh678cde345fg',
+      createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: 'e3',
+      type: 'milestone_completed',
+      actor: 'GCLAIMR1234ABCD5678EFGH9012IJKL3456MNOP7890QRST1234',
+      message: 'Milestone 1: Escrow deposit flow implemented and tested.',
+      createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+  ],
+  '3': [
+    {
+      id: 'e1',
+      type: 'created',
+      actor: 'GREVIEW1234ABCD5678EFGH9012IJKL3456MNOP7890QRST123',
+      message: 'Bounty posted for path payment UI implementation.',
+      createdAt: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: 'e2',
+      type: 'claimed',
+      actor: 'GSUBMIT1234ABCD5678EFGH9012IJKL3456MNOP7890QRST123',
+      message: 'Contributor claimed the bounty.',
+      createdAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: 'e3',
+      type: 'milestone_completed',
+      actor: 'GSUBMIT1234ABCD5678EFGH9012IJKL3456MNOP7890QRST123',
+      message: 'Milestone 1 & 2 completed. UI components built and reviewed.',
+      createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: 'e4',
+      type: 'work_submitted',
+      actor: 'GSUBMIT1234ABCD5678EFGH9012IJKL3456MNOP7890QRST123',
+      message: 'Final work submitted for review. PR linked in submission.',
+      createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+  ],
+}
+
+export const MOCK_MILESTONES: Record<string, { id: string; title: string; completed: boolean; dueDate?: string }[]> = {
+  '1': [
+    { id: 'm1', title: 'Reproduce and document the bug', completed: false, dueDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString() },
+    { id: 'm2', title: 'Implement fix with proper error handling', completed: false, dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() },
+    { id: 'm3', title: 'Add unit tests and open PR', completed: false, dueDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString() },
+  ],
+  '2': [
+    { id: 'm1', title: 'Set up test harness and environment', completed: true },
+    { id: 'm2', title: 'Write deposit and claim tests', completed: false, dueDate: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString() },
+    { id: 'm3', title: 'Write dispute and refund tests', completed: false, dueDate: new Date(Date.now() + 6 * 24 * 60 * 60 * 1000).toISOString() },
+    { id: 'm4', title: 'CI integration and documentation', completed: false },
+  ],
+  '3': [
+    { id: 'm1', title: 'Build path payment UI components', completed: true },
+    { id: 'm2', title: 'Wire up Stellar SDK and submit PR', completed: true },
+  ],
+}
