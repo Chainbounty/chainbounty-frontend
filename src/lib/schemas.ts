@@ -48,3 +48,30 @@ export const postBountySchema = z.object({
 })
 
 export type PostBountyFormValues = z.infer<typeof postBountySchema>
+
+
+const GITHUB_PR_REGEX = /^https:\/\/github\.com\/[\w.-]+\/[\w.-]+\/pull\/\d+$/
+
+export const submitWorkSchema = z.object({
+  prUrl: z
+    .string()
+    .url('Must be a valid URL')
+    .regex(GITHUB_PR_REGEX, 'Must be a valid GitHub PR URL (e.g. https://github.com/org/repo/pull/123)'),
+
+  notes: z
+    .string()
+    .min(20, 'Notes must be at least 20 characters')
+    .max(1000, 'Notes must be under 1000 characters'),
+
+  completedMilestones: z
+    .number({ invalid_type_error: 'Must be a number' })
+    .int('Must be a whole number')
+    .min(1, 'At least 1 milestone must be completed')
+    .optional(),
+
+  ipfsCid: z
+    .string()
+    .min(1, 'File upload is required'),
+})
+
+export type SubmitWorkFormValues = z.infer<typeof submitWorkSchema>
