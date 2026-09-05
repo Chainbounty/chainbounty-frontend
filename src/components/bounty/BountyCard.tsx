@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
 import { GitBranch, ExternalLink, Clock, User, Coins, Tag } from 'lucide-react'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
@@ -14,7 +15,8 @@ interface BountyCardProps {
   className?: string
 }
 
-export function BountyCard({ bounty, className }: BountyCardProps) {
+// Memoized to prevent re-renders when parent updates but bounty data hasn't changed
+export const BountyCard = memo(function BountyCard({ bounty, className }: BountyCardProps) {
   const {
     id,
     title,
@@ -162,4 +164,4 @@ export function BountyCard({ bounty, className }: BountyCardProps) {
       </CardFooter>
     </Card>
   )
-}
+})

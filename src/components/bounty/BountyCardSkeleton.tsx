@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { cn } from '@/lib/utils'
@@ -6,7 +7,7 @@ interface BountyCardSkeletonProps {
   className?: string
 }
 
-export function BountyCardSkeleton({ className }: BountyCardSkeletonProps) {
+export const BountyCardSkeleton = memo(function BountyCardSkeleton({ className }: BountyCardSkeletonProps) {
   return (
     <Card className={cn('hover:shadow-md transition-shadow', className)}>
       <CardHeader className="pb-3">
@@ -61,4 +62,4 @@ export function BountyCardSkeleton({ className }: BountyCardSkeletonProps) {
       </CardContent>
     </Card>
   )
-}
+})

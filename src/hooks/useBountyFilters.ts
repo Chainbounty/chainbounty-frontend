@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useCallback } from 'react'
 import type { Bounty, BountyStatus, BountyToken } from '@/types/bounty'
 
 export type SortOption = 'newest' | 'oldest' | 'reward_high' | 'reward_low'
@@ -91,22 +91,22 @@ export function useBountyFilters(bounties: Bounty[]) {
     return result
   }, [bounties, filters])
 
-  function updateFilter<K extends keyof BountyFilters>(key: K, value: BountyFilters[K]) {
+  const updateFilter = useCallback(<K extends keyof BountyFilters>(key: K, value: BountyFilters[K]) => {
     setFilters(prev => ({ ...prev, [key]: value }))
-  }
+  }, [])
 
-  function toggleTag(tag: string) {
+  const toggleTag = useCallback((tag: string) => {
     setFilters(prev => ({
       ...prev,
       tags: prev.tags.includes(tag)
         ? prev.tags.filter(t => t !== tag)
         : [...prev.tags, tag],
     }))
-  }
+  }, [])
 
-  function resetFilters() {
+  const resetFilters = useCallback(() => {
     setFilters(DEFAULT_FILTERS)
-  }
+  }, [])
 
   const activeFilterCount = [
     filters.search !== '',
