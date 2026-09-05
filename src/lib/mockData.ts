@@ -407,3 +407,50 @@ export const MOCK_LEADERBOARD: LeaderboardEntry[] = [
     change: -2,
   },
 ]
+
+
+import type { Dispute } from '@/types/dispute'
+
+export const MOCK_DISPUTES: Dispute[] = [
+  {
+    id: 'd1',
+    bountyId: '5',
+    bountyTitle: 'Fix memory leak in Stellar Base keypair generation',
+    poster: 'GDISPUTE1234ABCD5678EFGH9012IJKL3456MNOP7890QRST1',
+    claimer: 'GCLAIM2134ABCD5678EFGH9012IJKL3456MNOP7890QRST123',
+    reason: 'Work submitted does not address root cause. Memory leak still occurs in production environment after merge.',
+    evidence: 'QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG',
+    status: 'under_review',
+    createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    votesForPoster: 3,
+    votesForClaimer: 1,
+  },
+  {
+    id: 'd2',
+    bountyId: '10',
+    bountyTitle: 'Implement multi-currency support in DEX UI',
+    poster: 'GPOSTER2ABCD5678EFGH9012IJKL3456MNOP7890QRST1234',
+    claimer: 'GCLAIMER3ABCD5678EFGH9012IJKL3456MNOP7890QRST12',
+    reason: 'Requirements were changed mid-development without prior agreement. Original scope was only XLM/USDC pair.',
+    evidence: 'QmT5NvUtoM5nWFfrQdVrFtvGfKFmG7AHE8P34isapyhCxX',
+    status: 'open',
+    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
+    votesForPoster: 0,
+    votesForClaimer: 2,
+  },
+  {
+    id: 'd3',
+    bountyId: '11',
+    bountyTitle: 'Add SEP-10 authentication to anchor server',
+    poster: 'GANCHOR1ABCD5678EFGH9012IJKL3456MNOP7890QRST123',
+    claimer: 'GCONTRIB4ABCD5678EFGH9012IJKL3456MNOP7890QRST1',
+    reason: 'Implementation complete and tested. Poster is unresponsive for 10+ days.',
+    evidence: 'QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco',
+    status: 'resolved_claimer',
+    createdAt: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
+    resolvedAt: new Date(Date.now() - 12 * 24 * 60 * 60 * 1000).toISOString(),
+    resolution: 'Poster failed to respond within dispute window. Funds released to claimer per protocol rules.',
+    votesForPoster: 1,
+    votesForClaimer: 5,
+  },
+]
