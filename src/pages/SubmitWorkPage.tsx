@@ -17,6 +17,7 @@ import {
 import { FileUploader } from '@/components/bounty/FileUploader'
 import { BountyCard } from '@/components/bounty/BountyCard'
 import { useWallet } from '@/contexts/WalletContext'
+import { toast } from '@/hooks/useToast'
 import { MOCK_BOUNTIES } from '@/lib/mockData'
 import { submitWorkSchema, type SubmitWorkFormValues } from '@/lib/schemas'
 import type { IPFSUploadResult } from '@/lib/ipfs'
@@ -83,7 +84,20 @@ export default function SubmitWorkPage() {
       // Simulate contract call
       await new Promise(res => setTimeout(res, 1500))
       console.log('Submitting work:', { ...values, ipfsCid: uploadedFile.cid })
+
+      toast({
+        variant: 'success',
+        title: 'Work submitted!',
+        description: 'The bounty poster will review your submission.',
+      })
+
       navigate(`/bounties/${id}`)
+    } catch (err) {
+      toast({
+        variant: 'destructive',
+        title: 'Submission failed',
+        description: err instanceof Error ? err.message : 'An error occurred while submitting work.',
+      })
     } finally {
       setIsSubmitting(false)
     }

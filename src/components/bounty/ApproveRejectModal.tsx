@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import * as React from 'react'
 import { Loader2, CheckCircle2, XCircle, AlertTriangle, ExternalLink, Send } from 'lucide-react'
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
@@ -10,6 +11,7 @@ import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
 import { BountyStatusBadge } from '@/components/bounty/BountyStatusBadge'
 import { formatReward } from '@/lib/bounty'
+import { toast } from '@/hooks/useToast'
 import type { Bounty } from '@/types/bounty'
 import { cn } from '@/lib/utils'
 
@@ -70,9 +72,23 @@ export function ApproveRejectModal({
       setTxHash(mockTxHash)
       setStep('success')
       onSuccess?.(action, mockTxHash)
+
+      toast({
+        variant: isApprove ? 'success' : 'default',
+        title: isApprove ? 'Work approved!' : 'Changes requested',
+        description: isApprove
+          ? `Reward of ${formatReward(bounty.reward, bounty.token)} has been released.`
+          : 'The contributor has been notified.',
+      })
     } catch (err) {
       setErrorMessage(err instanceof Error ? err.message : 'Transaction failed')
       setStep('error')
+
+      toast({
+        variant: 'destructive',
+        title: 'Transaction failed',
+        description: err instanceof Error ? err.message : 'Transaction failed. Please try again.',
+      })
     }
   }
 

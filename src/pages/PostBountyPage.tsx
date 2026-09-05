@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/form'
 import { TokenSelector } from '@/components/bounty/TokenSelector'
 import { useWallet } from '@/contexts/WalletContext'
+import { toast } from '@/hooks/useToast'
 import { postBountySchema, type PostBountyFormValues } from '@/lib/schemas'
 import type { BountyToken } from '@/types/bounty'
 
@@ -68,8 +69,21 @@ export default function PostBountyPage() {
       // Simulate async contract call / API post
       await new Promise(res => setTimeout(res, 1500))
       console.log('Posting bounty:', { ...values, tags })
+
+      toast({
+        variant: 'success',
+        title: 'Bounty posted!',
+        description: `"${values.title}" is now live. Funds locked in escrow.`,
+      })
+
       // Navigate to the bounty list after posting
       navigate('/bounties')
+    } catch (err) {
+      toast({
+        variant: 'destructive',
+        title: 'Failed to post bounty',
+        description: err instanceof Error ? err.message : 'An error occurred while posting the bounty.',
+      })
     } finally {
       setIsSubmitting(false)
     }

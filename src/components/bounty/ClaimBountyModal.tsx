@@ -11,6 +11,7 @@ import { BountyStatusBadge } from '@/components/bounty/BountyStatusBadge'
 import { formatReward, shortAddress, timeAgo } from '@/lib/bounty'
 import { claimBountyOnChain } from '@/lib/stellar'
 import { useWallet } from '@/contexts/WalletContext'
+import { toast } from '@/hooks/useToast'
 import type { Bounty } from '@/types/bounty'
 import { cn } from '@/lib/utils'
 
@@ -77,9 +78,21 @@ export function ClaimBountyModal({
       setTxHash(mockTxHash)
       setStep('success')
       onSuccess?.(mockTxHash)
+
+      toast({
+        variant: 'success',
+        title: 'Bounty claimed!',
+        description: `You've successfully claimed "${bounty.title}". Start working on it!`,
+      })
     } catch (err) {
       setErrorMessage(err instanceof Error ? err.message : 'Transaction failed. Please try again.')
       setStep('error')
+
+      toast({
+        variant: 'destructive',
+        title: 'Claim failed',
+        description: err instanceof Error ? err.message : 'Transaction failed. Please try again.',
+      })
     }
   }
 

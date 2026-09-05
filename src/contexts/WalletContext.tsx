@@ -14,6 +14,7 @@ import {
   getNetwork,
   getNetworkDetails,
 } from '@stellar/freighter-api'
+import { toast } from '@/hooks/useToast'
 
 export type WalletNetwork = 'TESTNET' | 'PUBLIC' | 'FUTURENET' | 'STANDALONE'
 
@@ -110,6 +111,12 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         networkPassphrase: networkDetailsResult.networkPassphrase ?? null,
         error: null,
       })
+
+      toast({
+        variant: 'success',
+        title: 'Wallet connected',
+        description: `Connected to ${addressResult.address.slice(0, 8)}...${addressResult.address.slice(-4)}`,
+      })
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to connect wallet.'
       setState(prev => ({
@@ -118,6 +125,12 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         isConnected: false,
         error: message,
       }))
+
+      toast({
+        variant: 'destructive',
+        title: 'Connection failed',
+        description: message,
+      })
     }
   }, [])
 
@@ -129,6 +142,11 @@ export function WalletProvider({ children }: { children: ReactNode }) {
       network: null,
       networkPassphrase: null,
       error: null,
+    })
+
+    toast({
+      title: 'Wallet disconnected',
+      description: 'Your wallet has been disconnected.',
     })
   }, [])
 

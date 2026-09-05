@@ -18,6 +18,7 @@ import {
 import { FileUploader } from '@/components/bounty/FileUploader'
 import { BountyStatusBadge } from '@/components/bounty/BountyStatusBadge'
 import { formatReward } from '@/lib/bounty'
+import { toast } from '@/hooks/useToast'
 import type { Bounty } from '@/types/bounty'
 import type { IPFSUploadResult } from '@/lib/ipfs'
 
@@ -90,9 +91,21 @@ export function RaiseDisputeModal({
       setTxHash(mockTxHash)
       setStep('success')
       onSuccess?.(mockTxHash)
+
+      toast({
+        variant: 'success',
+        title: 'Dispute submitted',
+        description: 'Your dispute will be reviewed by community arbitrators.',
+      })
     } catch (err) {
       setErrorMessage(err instanceof Error ? err.message : 'Failed to raise dispute')
       setStep('error')
+
+      toast({
+        variant: 'destructive',
+        title: 'Dispute submission failed',
+        description: err instanceof Error ? err.message : 'Failed to raise dispute. Please try again.',
+      })
     }
   }
 

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Layout } from '@/components/layout/Layout'
+import { Toaster } from '@/components/ui/toaster'
 import HomePage from '@/pages/HomePage'
 import BountyListPage from '@/pages/BountyListPage'
 import BountyDetailPage from '@/pages/BountyDetailPage'
@@ -30,6 +31,7 @@ function App() {
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
+      <Toaster />
     </BrowserRouter>
   )
 }
