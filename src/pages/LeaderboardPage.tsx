@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Trophy, Medal, Award, TrendingUp, TrendingDown, Minus, Coins,
   Target, BarChart3, ExternalLink
@@ -11,6 +11,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import {
   Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from '@/components/ui/table'
+import { TableSkeleton } from '@/components/ui/table-skeleton'
+import { Skeleton } from '@/components/ui/skeleton'
 import { shortAddress } from '@/lib/bounty'
 import { MOCK_LEADERBOARD, type LeaderboardEntry } from '@/lib/mockData'
 import { cn } from '@/lib/utils'
@@ -19,6 +21,13 @@ type SortBy = 'rank' | 'earned' | 'completed' | 'successRate'
 
 export default function LeaderboardPage() {
   const [sortBy, setSortBy] = useState<SortBy>('rank')
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // Simulate data load
+    const timer = setTimeout(() => setIsLoading(false), 600)
+    return () => clearTimeout(timer)
+  }, [])
 
   const sorted = [...MOCK_LEADERBOARD].sort((a, b) => {
     switch (sortBy) {
@@ -59,41 +68,81 @@ export default function LeaderboardPage() {
 
       {/* Aggregate stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <Card>
-          <CardContent className="pt-5 pb-5 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
-              <Coins className="h-5 w-5 text-green-500" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold">{totalEarned.toLocaleString()}</p>
-              <p className="text-xs text-muted-foreground">Total Earned (USDC)</p>
-            </div>
-          </CardContent>
-        </Card>
+        {isLoading ? (
+          <>
+            <Card>
+              <CardContent className="pt-5 pb-5">
+                <div className="flex items-center gap-3">
+                  <Skeleton className="h-10 w-10 rounded-full" />
+                  <div className="space-y-1">
+                    <Skeleton className="h-7 w-24" />
+                    <Skeleton className="h-3 w-32" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="pt-5 pb-5">
+                <div className="flex items-center gap-3">
+                  <Skeleton className="h-10 w-10 rounded-full" />
+                  <div className="space-y-1">
+                    <Skeleton className="h-7 w-16" />
+                    <Skeleton className="h-3 w-32" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="pt-5 pb-5">
+                <div className="flex items-center gap-3">
+                  <Skeleton className="h-10 w-10 rounded-full" />
+                  <div className="space-y-1">
+                    <Skeleton className="h-7 w-20" />
+                    <Skeleton className="h-3 w-28" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </>
+        ) : (
+          <>
+            <Card>
+              <CardContent className="pt-5 pb-5 flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center shrink-0">
+                  <Coins className="h-5 w-5 text-green-500" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">{totalEarned.toLocaleString()}</p>
+                  <p className="text-xs text-muted-foreground">Total Earned (USDC)</p>
+                </div>
+              </CardContent>
+            </Card>
 
-        <Card>
-          <CardContent className="pt-5 pb-5 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0">
-              <Target className="h-5 w-5 text-blue-500" />
-            </div>
-            <div>
-              <p className="text-2xl font-bold">{totalCompleted}</p>
-              <p className="text-xs text-muted-foreground">Bounties Completed</p>
-            </div>
-          </CardContent>
-        </Card>
+            <Card>
+              <CardContent className="pt-5 pb-5 flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0">
+                  <Target className="h-5 w-5 text-blue-500" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold">{totalCompleted}</p>
+                  <p className="text-xs text-muted-foreground">Bounties Completed</p>
+                </div>
+              </CardContent>
+            </Card>
 
-        <Card>
-          <CardContent className="pt-5 pb-5 flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-purple-500/10 flex items-center justify-center shrink-0">
-              <BarChart3 className="h-5 w-5 text-purple-500" />
-            </div>
-            <div>
+            <Card>
+              <CardContent className="pt-5 pb-5 flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-purple-500/10 flex items-center justify-center shrink-0">
+                  <BarChart3 className="h-5 w-5 text-purple-500" />
+                </div>
+                <div>
               <p className="text-2xl font-bold">{avgSuccessRate}%</p>
               <p className="text-xs text-muted-foreground">Avg Success Rate</p>
             </div>
           </CardContent>
         </Card>
+          </>
+        )}
       </div>
 
       {/* Top 3 podium */}
@@ -167,21 +216,24 @@ export default function LeaderboardPage() {
           </div>
         </CardHeader>
         <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-16">Rank</TableHead>
-                <TableHead>Contributor</TableHead>
-                <TableHead className="text-right">Earned</TableHead>
-                <TableHead className="text-right hidden sm:table-cell">Completed</TableHead>
-                <TableHead className="text-right hidden md:table-cell">Success Rate</TableHead>
-                <TableHead className="text-right hidden lg:table-cell">Reputation</TableHead>
-                <TableHead className="w-16"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {sorted.map(entry => (
-                <TableRow key={entry.address} className="group">
+          {isLoading ? (
+            <TableSkeleton rows={10} columns={7} />
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-16">Rank</TableHead>
+                  <TableHead>Contributor</TableHead>
+                  <TableHead className="text-right">Earned</TableHead>
+                  <TableHead className="text-right hidden sm:table-cell">Completed</TableHead>
+                  <TableHead className="text-right hidden md:table-cell">Success Rate</TableHead>
+                  <TableHead className="text-right hidden lg:table-cell">Reputation</TableHead>
+                  <TableHead className="w-16"></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {sorted.map(entry => (
+                  <TableRow key={entry.address} className="group">
                   <TableCell className="font-medium">
                     <div className="flex items-center gap-1.5">
                       #{entry.rank}
@@ -236,6 +288,7 @@ export default function LeaderboardPage() {
               ))}
             </TableBody>
           </Table>
+          )}
         </CardContent>
       </Card>
     </div>

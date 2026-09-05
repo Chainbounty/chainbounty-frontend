@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { BountyCard } from '@/components/bounty/BountyCard'
+import { BountyCardSkeleton } from '@/components/bounty/BountyCardSkeleton'
 import { BountyFilterSidebar } from '@/components/bounty/BountyFilterSidebar'
 import { LiveIndicator } from '@/components/ui/live-indicator'
 import { useBountyFilters } from '@/hooks/useBountyFilters'
@@ -17,7 +18,7 @@ export default function BountyListPage() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
   // Poll for bounty updates every 15 seconds
-  const { bounties, lastUpdated } = useBountyListPolling(15000)
+  const { bounties, lastUpdated, isLoading } = useBountyListPolling(15000)
 
   const {
     filters,
@@ -158,8 +159,22 @@ export default function BountyListPage() {
             )}
           </div>
 
-          {/* Empty state */}
-          {filtered.length === 0 ? (
+          {/* Loading state */}
+          {isLoading ? (
+            viewMode === 'grid' ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <BountyCardSkeleton key={i} />
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-3">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <BountyCardSkeleton key={i} />
+                ))}
+              </div>
+            )
+          ) : /* Empty state */ filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <Search className="h-10 w-10 text-muted-foreground mb-4" />
               <h3 className="font-semibold text-lg mb-1">No bounties found</h3>
