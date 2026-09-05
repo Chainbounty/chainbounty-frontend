@@ -9,6 +9,7 @@ import { Separator } from '@/components/ui/separator'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { BountyStatusBadge } from '@/components/bounty/BountyStatusBadge'
 import { formatReward, shortAddress, timeAgo } from '@/lib/bounty'
+import { claimBountyOnChain } from '@/lib/stellar'
 import { useWallet } from '@/contexts/WalletContext'
 import type { Bounty } from '@/types/bounty'
 import { cn } from '@/lib/utils'
@@ -50,10 +51,23 @@ export function ClaimBountyModal({
     setErrorMessage(null)
 
     try {
-      // Simulate Freighter signing + contract call
-      await new Promise(res => setTimeout(res, 2000))
+      // Real Stellar SDK transaction signing
+      // Uncomment when contract is deployed:
+      /*
+      const result = await claimBountyOnChain({
+        sourceAddress: address!,
+        bountyId: bounty.id,
+      })
+      
+      if (!result.success) {
+        throw new Error(result.error || 'Transaction failed')
+      }
+      
+      setTxHash(result.txHash)
+      */
 
-      // Simulate occasional error for demo (5% chance)
+      // Simulation for demo (remove in production)
+      await new Promise(res => setTimeout(res, 2000))
       if (Math.random() < 0.05) throw new Error('User rejected transaction in Freighter.')
 
       const mockTxHash = Array.from({ length: 64 }, () =>
