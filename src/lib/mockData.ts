@@ -285,3 +285,125 @@ export const MOCK_CONTRIBUTOR_ACTIVITY: Record<string, ContributorActivity[]> = 
     },
   ],
 }
+
+
+export interface LeaderboardEntry {
+  rank: number
+  address: string
+  totalEarned: number
+  bountiesCompleted: number
+  successRate: number
+  reputationScore: number
+  change: number // rank change from last week (+/- or 0)
+}
+
+export const MOCK_LEADERBOARD: LeaderboardEntry[] = [
+  {
+    rank: 1,
+    address: 'GTOP1ABCD1234EFGH5678IJKL9012MNOP3456QRST7890UVWX',
+    totalEarned: 12500,
+    bountiesCompleted: 32,
+    successRate: 96.9,
+    reputationScore: 2850,
+    change: 0,
+  },
+  {
+    rank: 2,
+    address: 'GRANK2ABCD1234EFGH5678IJKL9012MNOP3456QRST7890UV',
+    totalEarned: 10200,
+    bountiesCompleted: 28,
+    successRate: 93.3,
+    reputationScore: 2340,
+    change: 1,
+  },
+  {
+    rank: 3,
+    address: 'GTHIRD3ABCD1234EFGH5678IJKL9012MNOP3456QRST7890U',
+    totalEarned: 8900,
+    bountiesCompleted: 24,
+    successRate: 95.8,
+    reputationScore: 2120,
+    change: -1,
+  },
+  {
+    rank: 4,
+    address: 'GFOURTH4ABCD1234EFGH5678IJKL9012MNOP3456QRST7890',
+    totalEarned: 7100,
+    bountiesCompleted: 21,
+    successRate: 90.5,
+    reputationScore: 1880,
+    change: 2,
+  },
+  {
+    rank: 5,
+    address: 'GSUBMIT1234ABCD5678EFGH9012IJKL3456MNOP7890QRST123',
+    totalEarned: 5100,
+    bountiesCompleted: 14,
+    successRate: 93.3,
+    reputationScore: 1240,
+    change: 0,
+  },
+  {
+    rank: 6,
+    address: 'GSIXTH6ABCD1234EFGH5678IJKL9012MNOP3456QRST78901',
+    totalEarned: 4800,
+    bountiesCompleted: 16,
+    successRate: 87.5,
+    reputationScore: 1150,
+    change: -2,
+  },
+  {
+    rank: 7,
+    address: 'GSEVENTH7ABCD1234EFGH5678IJKL9012MNOP3456QRST78',
+    totalEarned: 4500,
+    bountiesCompleted: 13,
+    successRate: 92.3,
+    reputationScore: 1080,
+    change: 1,
+  },
+  {
+    rank: 8,
+    address: 'GEIGHTH8ABCD1234EFGH5678IJKL9012MNOP3456QRST789',
+    totalEarned: 4200,
+    bountiesCompleted: 15,
+    successRate: 86.7,
+    reputationScore: 1020,
+    change: 0,
+  },
+  {
+    rank: 9,
+    address: 'GNINTH9ABCD1234EFGH5678IJKL9012MNOP3456QRST7890',
+    totalEarned: 3800,
+    bountiesCompleted: 11,
+    successRate: 90.9,
+    reputationScore: 950,
+    change: -1,
+  },
+  {
+    rank: 10,
+    address: 'GTENTH10ABCD1234EFGH5678IJKL9012MNOP3456QRST789',
+    totalEarned: 3600,
+    bountiesCompleted: 12,
+    successRate: 91.7,
+    reputationScore: 920,
+    change: 3,
+  },
+  {
+    rank: 11,
+    address: 'GELEVEN11ABCD1234EFGH5678IJKL9012MNOP3456QRST7',
+    totalEarned: 3400,
+    bountiesCompleted: 10,
+    successRate: 90.0,
+    reputationScore: 870,
+    change: 0,
+  },
+  {
+    rank: 12,
+    address: 'GCLAIMR1234ABCD5678EFGH9012IJKL3456MNOP7890QRST1234',
+    totalEarned: 3250,
+    bountiesCompleted: 8,
+    successRate: 88.9,
+    reputationScore: 850,
+    change: -2,
+  },
+]
