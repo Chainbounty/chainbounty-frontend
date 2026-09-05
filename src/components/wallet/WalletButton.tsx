@@ -19,9 +19,9 @@ export function WalletButton() {
   // Loading state
   if (isLoading) {
     return (
-      <Button size="sm" disabled>
+      <Button size="sm" disabled className="min-w-[120px]">
         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-        Connecting...
+        <span className="hidden xs:inline">Connecting...</span>
       </Button>
     )
   }
@@ -31,15 +31,15 @@ export function WalletButton() {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size="sm" variant="outline" className="gap-2">
+          <Button size="sm" variant="outline" className="gap-2 min-w-[100px]">
             <Wallet className="h-4 w-4 text-primary" />
             <span className="font-mono text-xs">{shortAddress}</span>
             {network && (
               <Badge
                 variant={network === 'PUBLIC' ? 'default' : 'secondary'}
-                className="text-xs px-1 py-0"
+                className="text-xs px-1 py-0 hidden sm:inline-flex"
               >
-                {network === 'PUBLIC' ? 'Mainnet' : network}
+                {network === 'PUBLIC' ? 'Net' : network}
               </Badge>
             )}
             <ChevronDown className="h-3 w-3 opacity-60" />
@@ -76,18 +76,19 @@ export function WalletButton() {
   // Error state
   if (error) {
     return (
-      <Button size="sm" variant="destructive" onClick={connect} className="gap-2">
+      <Button size="sm" variant="destructive" onClick={connect} className="gap-2 min-w-[120px]">
         <AlertCircle className="h-4 w-4" />
-        Retry Connect
+        <span className="hidden xs:inline">Retry</span>
+        <span className="xs:hidden">!</span>
       </Button>
     )
   }
 
   // Default — not connected
   return (
-    <Button size="sm" onClick={connect} className="gap-2">
+    <Button size="sm" onClick={connect} className="gap-2 min-w-[120px]">
       <Wallet className="h-4 w-4" />
-      Connect Wallet
+      <span className="hidden xs:inline">Connect</span>
     </Button>
   )
 }

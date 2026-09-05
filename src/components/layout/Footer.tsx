@@ -5,15 +5,15 @@ import { Separator } from '@/components/ui/separator'
 export function Footer() {
   return (
     <footer className="bg-background border-t" role="contentinfo">
-      <div className="container py-10">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="container py-8 sm:py-10">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
           {/* Brand */}
-          <div className="space-y-3">
-            <div className="flex items-center gap-2 font-bold text-lg">
+          <div className="space-y-3 xs:col-span-2 md:col-span-1">
+            <div className="flex items-center gap-2 font-bold text-base sm:text-lg">
               <Zap className="h-4 w-4 text-primary" aria-hidden="true" />
               ChainBounty
             </div>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground max-w-xs">
               Decentralized bounty board for open source contributors and projects.
             </p>
           </div>
@@ -81,9 +81,9 @@ export function Footer() {
           </div>
         </div>
 
-        <Separator className="my-8" />
+        <Separator className="my-6 sm:my-8" />
 
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-sm text-muted-foreground text-center sm:text-left">
           <p>© {new Date().getFullYear()} ChainBounty. Built on Stellar.</p>
           <nav aria-label="Legal links">
             <div className="flex gap-4">
