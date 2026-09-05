@@ -6,14 +6,18 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { BountyCard } from '@/components/bounty/BountyCard'
 import { BountyFilterSidebar } from '@/components/bounty/BountyFilterSidebar'
+import { LiveIndicator } from '@/components/ui/live-indicator'
 import { useBountyFilters } from '@/hooks/useBountyFilters'
-import { MOCK_BOUNTIES } from '@/lib/mockData'
+import { useBountyListPolling } from '@/hooks/useBountyListPolling'
 
 type ViewMode = 'grid' | 'list'
 
 export default function BountyListPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
   const [sidebarOpen, setSidebarOpen] = useState(true)
+
+  // Poll for bounty updates every 15 seconds
+  const { bounties, lastUpdated } = useBountyListPolling(15000)
 
   const {
     filters,
@@ -24,13 +28,16 @@ export default function BountyListPage() {
     toggleTag,
     resetFilters,
     activeFilterCount,
-  } = useBountyFilters(MOCK_BOUNTIES)
+  } = useBountyFilters(bounties)
 
   return (
     <div className="container py-8">
       {/* Page header */}
       <div className="mb-6">
-        <h1 className="text-3xl font-bold mb-1">Browse Bounties</h1>
+        <div className="flex items-center justify-between mb-1">
+          <h1 className="text-3xl font-bold">Browse Bounties</h1>
+          <LiveIndicator lastUpdated={lastUpdated} />
+        </div>
         <p className="text-muted-foreground text-sm">
           Discover open source issues with on-chain rewards
         </p>

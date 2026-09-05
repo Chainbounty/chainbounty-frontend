@@ -17,7 +17,9 @@ import { MilestoneProgress } from '@/components/bounty/MilestoneProgress'
 import { BountyActionPanel } from '@/components/bounty/BountyActionPanel'
 import { ClaimBountyModal } from '@/components/bounty/ClaimBountyModal'
 import { ApproveRejectModal } from '@/components/bounty/ApproveRejectModal'
-import { MOCK_BOUNTIES, MOCK_TIMELINE, MOCK_MILESTONES } from '@/lib/mockData'
+import { LiveIndicator } from '@/components/ui/live-indicator'
+import { useBountyPolling } from '@/hooks/useBountyPolling'
+import { MOCK_TIMELINE, MOCK_MILESTONES } from '@/lib/mockData'
 import { formatReward, shortAddress, timeAgo } from '@/lib/bounty'
 
 export default function BountyDetailPage() {
@@ -28,7 +30,8 @@ export default function BountyDetailPage() {
   const [approveModalOpen, setApproveModalOpen] = useState(false)
   const [rejectModalOpen, setRejectModalOpen] = useState(false)
 
-  const bounty = MOCK_BOUNTIES.find(b => b.id === id)
+  // Poll for bounty updates every 10 seconds
+  const { bounty, lastUpdated } = useBountyPolling(id, 10000)
   const timeline = MOCK_TIMELINE[id ?? ''] ?? []
   const milestones = MOCK_MILESTONES[id ?? ''] ?? []
 
@@ -71,6 +74,11 @@ export default function BountyDetailPage() {
           <ArrowLeft className="h-4 w-4" />
           Back to bounties
         </Button>
+
+        {/* Live indicator */}
+        <div className="flex justify-end mb-4">
+          <LiveIndicator lastUpdated={lastUpdated} />
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* ── Left / Main ── */}
