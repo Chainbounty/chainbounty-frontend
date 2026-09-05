@@ -16,6 +16,7 @@ import { BountyTimeline } from '@/components/bounty/BountyTimeline'
 import { MilestoneProgress } from '@/components/bounty/MilestoneProgress'
 import { BountyActionPanel } from '@/components/bounty/BountyActionPanel'
 import { ClaimBountyModal } from '@/components/bounty/ClaimBountyModal'
+import { ApproveRejectModal } from '@/components/bounty/ApproveRejectModal'
 import { MOCK_BOUNTIES, MOCK_TIMELINE, MOCK_MILESTONES } from '@/lib/mockData'
 import { formatReward, shortAddress, timeAgo } from '@/lib/bounty'
 
@@ -24,6 +25,8 @@ export default function BountyDetailPage() {
   const navigate = useNavigate()
   const [copied, setCopied] = useState(false)
   const [claimModalOpen, setClaimModalOpen] = useState(false)
+  const [approveModalOpen, setApproveModalOpen] = useState(false)
+  const [rejectModalOpen, setRejectModalOpen] = useState(false)
 
   const bounty = MOCK_BOUNTIES.find(b => b.id === id)
   const timeline = MOCK_TIMELINE[id ?? ''] ?? []
@@ -199,8 +202,8 @@ export default function BountyDetailPage() {
               bounty={bounty}
               onClaim={() => setClaimModalOpen(true)}
               onSubmitWork={() => navigate(`/bounties/${id}/submit`)}
-              onApprove={() => alert('Approve flow — coming in step 11')}
-              onReject={() => alert('Reject flow — coming in step 11')}
+              onApprove={() => setApproveModalOpen(true)}
+              onReject={() => setRejectModalOpen(true)}
               onDispute={() => navigate('/disputes')}
             />
 
@@ -212,6 +215,31 @@ export default function BountyDetailPage() {
               onSuccess={txHash => {
                 console.log('Claimed! tx:', txHash)
                 setClaimModalOpen(false)
+              }}
+            />
+
+            {/* Approve modal */}
+            <ApproveRejectModal
+              bounty={bounty}
+              action="approve"
+              open={approveModalOpen}
+              onOpenChange={setApproveModalOpen}
+              onSuccess={(action, txHash) => {
+                console.log(`${action} tx:`, txHash)
+                setApproveModalOpen(false)
+                // In real app, refetch bounty to update status
+              }}
+            />
+
+            {/* Reject modal */}
+            <ApproveRejectModal
+              bounty={bounty}
+              action="reject"
+              open={rejectModalOpen}
+              onOpenChange={setRejectModalOpen}
+              onSuccess={(action, txHash) => {
+                console.log(`${action} tx:`, txHash)
+                setRejectModalOpen(false)
               }}
             />
 
