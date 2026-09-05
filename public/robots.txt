@@ -1,0 +1,9 @@
+﻿User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://chainbounty.com/sitemap.xml
+
+# Disallow admin or private routes (if any)
+Disallow: /api/
+Disallow: /admin/
