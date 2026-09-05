@@ -15,14 +15,18 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2 font-bold text-xl">
-          <Zap className="h-5 w-5 text-primary" />
+        <Link 
+          to="/" 
+          className="flex items-center gap-2 font-bold text-xl"
+          aria-label="ChainBounty home"
+        >
+          <Zap className="h-5 w-5 text-primary" aria-hidden="true" />
           <span>ChainBounty</span>
           <Badge variant="secondary" className="text-xs">Beta</Badge>
         </Link>
 
         {/* Nav links */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-6" aria-label="Main navigation">
           {navLinks.map(({ to, label }) => (
             <NavLink
               key={to}
@@ -32,6 +36,7 @@ export function Navbar() {
                   isActive ? 'text-primary' : 'text-muted-foreground'
                 }`
               }
+              aria-current={({ isActive }) => (isActive ? 'page' : undefined)}
             >
               {label}
             </NavLink>
