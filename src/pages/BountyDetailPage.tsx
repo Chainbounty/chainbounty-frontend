@@ -18,6 +18,7 @@ import { BountyActionPanel } from '@/components/bounty/BountyActionPanel'
 import { ClaimBountyModal } from '@/components/bounty/ClaimBountyModal'
 import { ApproveRejectModal } from '@/components/bounty/ApproveRejectModal'
 import { BountyDetailSkeleton } from '@/components/bounty/BountyDetailSkeleton'
+import { ErrorState } from '@/components/error/ErrorState'
 import { LiveIndicator } from '@/components/ui/live-indicator'
 import { useBountyPolling } from '@/hooks/useBountyPolling'
 import { MOCK_TIMELINE, MOCK_MILESTONES } from '@/lib/mockData'
@@ -32,13 +33,27 @@ export default function BountyDetailPage() {
   const [rejectModalOpen, setRejectModalOpen] = useState(false)
 
   // Poll for bounty updates every 10 seconds
-  const { bounty, lastUpdated, isLoading } = useBountyPolling(id, 10000)
+  const { bounty, lastUpdated, isLoading, error, refetch } = useBountyPolling(id, 10000)
   const timeline = MOCK_TIMELINE[id ?? ''] ?? []
   const milestones = MOCK_MILESTONES[id ?? ''] ?? []
 
   // Show loading skeleton on initial load
   if (isLoading) {
     return <BountyDetailSkeleton />
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="container py-20">
+        <ErrorState
+          type="network"
+          title="Failed to load bounty"
+          message={error.message}
+          retry={refetch}
+        />
+      </div>
+    )
   }
 
   if (!bounty) {

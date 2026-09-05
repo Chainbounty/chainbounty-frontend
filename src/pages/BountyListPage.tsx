@@ -8,6 +8,7 @@ import { BountyCard } from '@/components/bounty/BountyCard'
 import { BountyCardSkeleton } from '@/components/bounty/BountyCardSkeleton'
 import { BountyFilterSidebar } from '@/components/bounty/BountyFilterSidebar'
 import { LiveIndicator } from '@/components/ui/live-indicator'
+import { ErrorState } from '@/components/error/ErrorState'
 import { useBountyFilters } from '@/hooks/useBountyFilters'
 import { useBountyListPolling } from '@/hooks/useBountyListPolling'
 
@@ -18,7 +19,7 @@ export default function BountyListPage() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
 
   // Poll for bounty updates every 15 seconds
-  const { bounties, lastUpdated, isLoading } = useBountyListPolling(15000)
+  const { bounties, lastUpdated, isLoading, error, refetch } = useBountyListPolling(15000)
 
   const {
     filters,
@@ -174,6 +175,13 @@ export default function BountyListPage() {
                 ))}
               </div>
             )
+          ) : /* Error state */ error ? (
+            <ErrorState
+              type="network"
+              title="Failed to load bounties"
+              message={error.message}
+              retry={refetch}
+            />
           ) : /* Empty state */ filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <Search className="h-10 w-10 text-muted-foreground mb-4" />
