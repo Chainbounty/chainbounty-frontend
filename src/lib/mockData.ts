@@ -195,3 +195,93 @@ export const MOCK_MILESTONES: Record<string, { id: string; title: string; comple
     { id: 'm2', title: 'Wire up Stellar SDK and submit PR', completed: true },
   ],
 }
+
+
+import type { ContributorStats, ContributorActivity } from '@/types/profile'
+
+export const MOCK_CONTRIBUTOR_STATS: Record<string, ContributorStats> = {
+  'GCLAIMR1234ABCD5678EFGH9012IJKL3456MNOP7890QRST1234': {
+    totalEarned: 3250,
+    bountiesCompleted: 8,
+    bountiesInProgress: 2,
+    successRate: 88.9,
+    averageCompletionTime: 4.2,
+    reputationScore: 850,
+    rank: 12,
+  },
+  'GSUBMIT1234ABCD5678EFGH9012IJKL3456MNOP7890QRST123': {
+    totalEarned: 5100,
+    bountiesCompleted: 14,
+    bountiesInProgress: 1,
+    successRate: 93.3,
+    averageCompletionTime: 3.8,
+    reputationScore: 1240,
+    rank: 5,
+  },
+}
+
+export const MOCK_CONTRIBUTOR_ACTIVITY: Record<string, ContributorActivity[]> = {
+  'GCLAIMR1234ABCD5678EFGH9012IJKL3456MNOP7890QRST1234': [
+    {
+      id: 'a1',
+      bountyId: '2',
+      bountyTitle: 'Add Soroban smart contract integration tests',
+      action: 'claimed',
+      reward: 1500,
+      token: 'XLM',
+      timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: 'a2',
+      bountyId: '2',
+      bountyTitle: 'Add Soroban smart contract integration tests',
+      action: 'submitted',
+      timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: 'a3',
+      bountyId: '6',
+      bountyTitle: 'Optimize transaction throughput in Horizon',
+      action: 'approved',
+      reward: 800,
+      token: 'USDC',
+      timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: 'a4',
+      bountyId: '7',
+      bountyTitle: 'Add multi-sig support to Freighter',
+      action: 'approved',
+      reward: 950,
+      token: 'XLM',
+      timestamp: new Date(Date.now() - 15 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+  ],
+  'GSUBMIT1234ABCD5678EFGH9012IJKL3456MNOP7890QRST123': [
+    {
+      id: 'a1',
+      bountyId: '3',
+      bountyTitle: 'Implement path payment strict send UI',
+      action: 'submitted',
+      timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: 'a2',
+      bountyId: '8',
+      bountyTitle: 'Build SEP-24 deposit flow',
+      action: 'approved',
+      reward: 1200,
+      token: 'USDC',
+      timestamp: new Date(Date.now() - 10 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+    {
+      id: 'a3',
+      bountyId: '9',
+      bountyTitle: 'Refactor SDK error handling',
+      action: 'approved',
+      reward: 600,
+      token: 'XLM',
+      timestamp: new Date(Date.now() - 20 * 24 * 60 * 60 * 1000).toISOString(),
+    },
+  ],
+}
